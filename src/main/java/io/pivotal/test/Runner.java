@@ -2,19 +2,21 @@ package io.pivotal.test;
 
 import org.cloudfoundry.operations.CloudFoundryOperations;
 import org.cloudfoundry.operations.applications.GetApplicationRequest;
+import org.cloudfoundry.operations.applications.PushApplicationRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.SignalType;
-import reactor.util.function.Tuple2;
 
-import java.time.Instant;
-import java.time.ZoneId;
+import java.nio.file.Paths;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
+
+import static org.cloudfoundry.util.tuple.TupleUtils.consumer;
 
 @Component
 final class Runner {
+
+    private final Logger logger = LoggerFactory.getLogger(Runner.class);
 
     private final String application;
 
@@ -28,35 +30,38 @@ final class Runner {
 
     CountDownLatch run() {
         CountDownLatch latch = new CountDownLatch(1);
-        AtomicInteger counter = new AtomicInteger(0);
 
+//        for (int i = 0; i < 10; i++) {
+            status();
+//            deploy();
+//        }
+
+        return latch;
+    }
+
+    private void deploy() {
+        this.cloudFoundryOperations.applications()
+            .push(PushApplicationRequest.builder()
+                .application(Paths.get("/Users/bhale/dev/sources/java-test-applications/java-main-application/build/libs/java-main-application-1.0.0.BUILD-SNAPSHOT.jar"))
+                .name("java-main-application")
+                .build())
+            .elapsed()
+            .doOnNext(consumer((elapsed, v) -> this.logger.info("Push Application: {} ms", elapsed)))
+            .repeat()
+            .retry()
+            .subscribe();
+    }
+
+    private void status() {
         this.cloudFoundryOperations.applications()
             .get(GetApplicationRequest.builder()
                 .name(this.application)
                 .build())
-            .log("stream.postRequest", Level.INFO, SignalType.CANCEL, SignalType.ON_ERROR, SignalType.ON_COMPLETE)
             .elapsed()
-            .map(Tuple2::getT1)
+            .doOnNext(consumer((elapsed, application) -> this.logger.info("Get Application: {} ms", elapsed)))
             .repeat()
-            .doOnError(Throwable::printStackTrace)
-            .retry(t -> true)
-            .subscribe(elapsed -> {
-                int count = counter.getAndIncrement();
-                if (count % 250 == 0) {
-                    System.out.printf("\n%s - %d\t", Instant.now().atZone(ZoneId.systemDefault()).toLocalTime(), count);
-                }
-
-                if (elapsed < 1_000) {
-                    System.out.print(".");
-                } else {
-                    System.out.printf(" %d ", elapsed);
-                }
-            }, t -> {
-                t.printStackTrace();
-                latch.countDown();
-            }, latch::countDown);
-
-        return latch;
+            .retry()
+            .subscribe();
     }
 
 }

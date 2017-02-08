@@ -17,10 +17,28 @@ public class CfPerformanceApplication {
 
     public static void main(String[] args) throws InterruptedException {
         SpringApplication.run(CfPerformanceApplication.class, args)
-        .getBean(Runner.class)
-        .run()
-        .await();
+            .getBean(Runner.class)
+//            .getBean(Runner2.class)
+            .run()
+            .await();
     }
+
+//    @Bean
+//    CloudCredentials cloudCredentials(@Value("${test.password}") String password,
+//                                      @Value("${test.username}") String username) {
+//
+//        return new CloudCredentials(username, password);
+//    }
+//
+//    @Bean(initMethod = "login")
+//    CloudFoundryClient cloudFoundryClient(CloudCredentials cloudCredentials,
+//                                          @Value("${test.apiHost}") String apiHost,
+//                                          @Value("${test.organization}") String organization,
+//                                          @Value("${test.space}") String space,
+//                                          @Value("${test.skipSslValidation:false}") Boolean skipSslValidation) throws MalformedURLException {
+//
+//        return new CloudFoundryClient(cloudCredentials, URI.create("https://" + apiHost).toURL(), organization, space, skipSslValidation);
+//    }
 
     @Bean
     String application(@Value("${test.application}") String application) {
@@ -53,6 +71,7 @@ public class CfPerformanceApplication {
         return DefaultConnectionContext.builder()
             .apiHost(apiHost)
             .skipSslValidation(skipSslValidation)
+            .threadPoolSize(20)
             .build();
     }
 
