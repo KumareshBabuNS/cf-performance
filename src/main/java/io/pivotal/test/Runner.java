@@ -31,34 +31,35 @@ final class Runner {
     CountDownLatch run() {
         CountDownLatch latch = new CountDownLatch(1);
 
-//        for (int i = 0; i < 10; i++) {
-            status();
-//            deploy();
-//        }
+        for (int i = 0; i < 10; i++) {
+            status(i);
+            deploy(i);
+        }
 
         return latch;
     }
 
-    private void deploy() {
+    private void deploy(int i) {
         this.cloudFoundryOperations.applications()
             .push(PushApplicationRequest.builder()
                 .application(Paths.get("/Users/bhale/dev/sources/java-test-applications/java-main-application/build/libs/java-main-application-1.0.0.BUILD-SNAPSHOT.jar"))
-                .name("java-main-application")
+                .name("java-main-application-" + i)
+                .host("ben-java-main-application-" + i)
                 .build())
             .elapsed()
-            .doOnNext(consumer((elapsed, v) -> this.logger.info("Push Application: {} ms", elapsed)))
+            .doOnSuccess(consumer((elapsed, v) -> this.logger.info("Push Application {}: {} ms", i, elapsed)))
             .repeat()
             .retry()
             .subscribe();
     }
 
-    private void status() {
+    private void status(int i) {
         this.cloudFoundryOperations.applications()
             .get(GetApplicationRequest.builder()
-                .name(this.application)
+                .name("java-main-application-" + i)
                 .build())
             .elapsed()
-            .doOnNext(consumer((elapsed, application) -> this.logger.info("Get Application: {} ms", elapsed)))
+            .doOnSuccess(consumer((elapsed, application) -> this.logger.info("Get Application {}: {} ms", i, elapsed)))
             .repeat()
             .retry()
             .subscribe();
