@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
 import java.util.concurrent.CountDownLatch;
-
-import static org.cloudfoundry.util.tuple.TupleUtils.consumer;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 final class Runner {
@@ -31,7 +30,8 @@ final class Runner {
     CountDownLatch run() {
         CountDownLatch latch = new CountDownLatch(1);
 
-        for (int i = 0; i < 10; i++) {
+//                    deploy(0);
+        for (int i = 0; i < 5; i++) {
             status(i);
             deploy(i);
         }
@@ -40,26 +40,42 @@ final class Runner {
     }
 
     private void deploy(int i) {
+        AtomicLong startTime = new AtomicLong();
+
         this.cloudFoundryOperations.applications()
             .push(PushApplicationRequest.builder()
                 .application(Paths.get("/Users/bhale/dev/sources/java-test-applications/java-main-application/build/libs/java-main-application-1.0.0.BUILD-SNAPSHOT.jar"))
                 .name("java-main-application-" + i)
                 .host("ben-java-main-application-" + i)
                 .build())
-            .elapsed()
-            .doOnSuccess(consumer((elapsed, v) -> this.logger.info("Push Application {}: {} ms", i, elapsed)))
+            .doOnSubscribe(s -> startTime.set(System.currentTimeMillis()))
+            .doOnTerminate((v, t) -> {
+                if (t != null) {
+                    t.printStackTrace();
+                }
+
+                this.logger.info("Push Application {}: {} ms", i, System.currentTimeMillis() - startTime.getAndIncrement());
+            })
             .repeat()
             .retry()
             .subscribe();
     }
 
     private void status(int i) {
+        AtomicLong startTime = new AtomicLong();
+
         this.cloudFoundryOperations.applications()
             .get(GetApplicationRequest.builder()
                 .name("java-main-application-" + i)
                 .build())
-            .elapsed()
-            .doOnSuccess(consumer((elapsed, application) -> this.logger.info("Get Application {}: {} ms", i, elapsed)))
+            .doOnSubscribe(s -> startTime.set(System.currentTimeMillis()))
+            .doOnTerminate((v, t) -> {
+                if (t != null) {
+                    t.printStackTrace();
+                }
+
+                this.logger.info("Get Application {}: {} ms", i, System.currentTimeMillis() - startTime.getAndIncrement());
+            })
             .repeat()
             .retry()
             .subscribe();

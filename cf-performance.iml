@@ -44,7 +44,7 @@
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.22" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:4.3.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.cloudfoundry:cloudfoundry-operations:2.4.0.BUILD-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:3.0.5.BUILD-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: io.projectreactor.ipc:reactor-netty:0.6.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: io.projectreactor.ipc:reactor-ipc:0.6.0.RELEASE" level="project" />

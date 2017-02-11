@@ -23,7 +23,7 @@
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<reactor-core.version>3.0.5.BUILD-SNAPSHOT</reactor-core.version>
+		<reactor-core.version>3.0.5.RELEASE</reactor-core.version>
 		<reactor-netty.version>0.6.0.RELEASE</reactor-netty.version>
 	</properties>
 
