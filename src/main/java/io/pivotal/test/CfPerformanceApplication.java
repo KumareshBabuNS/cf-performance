@@ -73,8 +73,6 @@ public class CfPerformanceApplication {
         return DefaultConnectionContext.builder()
             .apiHost(apiHost)
             .skipSslValidation(skipSslValidation)
-            .threadPoolSize(20)
-            .sslHandshakeTimeout(Duration.ofMinutes(1))
             .build();
     }
 

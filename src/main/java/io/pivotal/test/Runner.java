@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -30,10 +31,9 @@ final class Runner {
     CountDownLatch run() {
         CountDownLatch latch = new CountDownLatch(1);
 
-//                    deploy(0);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             status(i);
-            deploy(i);
+//            deploy(i);
         }
 
         return latch;
@@ -45,6 +45,7 @@ final class Runner {
         this.cloudFoundryOperations.applications()
             .push(PushApplicationRequest.builder()
                 .application(Paths.get("/Users/bhale/dev/sources/java-test-applications/java-main-application/build/libs/java-main-application-1.0.0.BUILD-SNAPSHOT.jar"))
+//                .application(Paths.get("/Users/bhale/dev/sources/java-test-applications/java-main-application/build/libs/tmp"))
                 .name("java-main-application-" + i)
                 .host("ben-java-main-application-" + i)
                 .build())
@@ -68,6 +69,7 @@ final class Runner {
             .get(GetApplicationRequest.builder()
                 .name("java-main-application-" + i)
                 .build())
+            .timeout(Duration.ofMillis(500))
             .doOnSubscribe(s -> startTime.set(System.currentTimeMillis()))
             .doOnTerminate((v, t) -> {
                 if (t != null) {
