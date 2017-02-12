@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.concurrent.CountDownLatch;
 
-@Component
+//@Component
 public class Runner2 {
 
     private final Logger logger = LoggerFactory.getLogger(Runner2.class);

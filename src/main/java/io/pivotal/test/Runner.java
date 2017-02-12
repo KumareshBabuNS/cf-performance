@@ -5,12 +5,13 @@ import org.cloudfoundry.operations.applications.PushApplicationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
 
-//@Component
+@Component
 final class Runner {
 
     private final Logger logger = LoggerFactory.getLogger(Runner.class);
