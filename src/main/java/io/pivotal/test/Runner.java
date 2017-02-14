@@ -1,6 +1,7 @@
 package io.pivotal.test;
 
 import org.cloudfoundry.operations.CloudFoundryOperations;
+import org.cloudfoundry.operations.applications.GetApplicationRequest;
 import org.cloudfoundry.operations.applications.PushApplicationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,15 +64,16 @@ final class Runner {
         AtomicLong startTime = new AtomicLong();
 
         this.cloudFoundryOperations.applications()
-            .list()
-            .collectList()
+            .get(GetApplicationRequest.builder()
+                .name("java-main-application-" + i)
+                .build())
             .doOnSubscribe(s -> startTime.set(System.currentTimeMillis()))
             .doOnTerminate((v, t) -> {
                 if (t != null) {
                     t.printStackTrace();
                 }
 
-                this.logger.info("List Applications {}: {} ms", i, System.currentTimeMillis() - startTime.get());
+                this.logger.info("Get Application {}: {} ms", i, System.currentTimeMillis() - startTime.get());
             })
             .repeat()
             .retry()

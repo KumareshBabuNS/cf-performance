@@ -44,9 +44,7 @@
         <!--<appender-ref ref="FILE"/>-->
     <!--</logger>-->
 
-    <!--<logger name="reactor.ipc.netty" level="DEBUG" additivity="false">-->
-        <!--<appender-ref ref="FILE"/>-->
-    <!--</logger>-->
+    <!--<logger name="reactor.ipc.netty" level="DEBUG"/>-->
 
     <!--<logger name="reactor.ipc.netty.channel.ChannelOperations" level="TRACE" additivity="false">-->
         <!--<appender-ref ref="FILE"/>-->
