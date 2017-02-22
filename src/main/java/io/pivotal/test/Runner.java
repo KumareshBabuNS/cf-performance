@@ -30,10 +30,10 @@ final class Runner {
     CountDownLatch run() {
         CountDownLatch latch = new CountDownLatch(1);
 
-//        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
 //            status(0);
-            deploy(0);
-//        }
+            deploy(i);
+        }
 
         return latch;
     }
@@ -44,8 +44,8 @@ final class Runner {
         this.cloudFoundryOperations.applications()
             .push(PushApplicationRequest.builder()
                 .application(Paths.get("/Users/bhale/dev/sources/java-test-applications/java-main-application/build/libs/java-main-application-1.0.0.BUILD-SNAPSHOT.jar"))
-                .name("java-main-application-" + i)
-                .host("ben-java-main-application-" + i)
+                .name(String.format("%s-%d", this.application, i))
+                .host(String.format("ben-%s-%d", this.application, i))
                 .build())
             .doOnSubscribe(s -> startTime.set(System.currentTimeMillis()))
             .doOnTerminate((v, t) -> {
@@ -65,7 +65,7 @@ final class Runner {
 
         this.cloudFoundryOperations.applications()
             .get(GetApplicationRequest.builder()
-                .name("java-main-application-" + i)
+                .name(String.format("%s-%d", this.application, i))
                 .build())
             .doOnSubscribe(s -> startTime.set(System.currentTimeMillis()))
             .doOnTerminate((v, t) -> {
