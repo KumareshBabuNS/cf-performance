@@ -30,10 +30,10 @@ final class Runner {
     CountDownLatch run() {
         CountDownLatch latch = new CountDownLatch(1);
 
-        for (int i = 0; i < 5; i++) {
-            status(i);
-            deploy(i);
-        }
+//        for (int i = 0; i < 5; i++) {
+//            status(0);
+            deploy(0);
+//        }
 
         return latch;
     }
