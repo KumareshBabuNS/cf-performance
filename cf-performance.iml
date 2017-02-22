@@ -37,6 +37,10 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.8.6" level="project" />
     <orderEntry type="library" name="Maven: com.github.zafarkhaja:java-semver:0.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.jsonwebtoken:jjwt:0.7.0" level="project" />
+    <orderEntry type="library" name="Maven: io.projectreactor.ipc:reactor-netty:0.6.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: io.projectreactor.ipc:reactor-ipc:0.6.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:2.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.8.Final" level="project" />
     <orderEntry type="library" name="Maven: org.cloudfoundry:cloudfoundry-client:2.5.0.BUILD-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.wire:wire-runtime:2.2.0" level="project" />
@@ -45,12 +49,8 @@
     <orderEntry type="library" name="Maven: org.apache.commons:commons-compress:1.13" level="project" />
     <orderEntry type="library" name="Maven: org.atteo:evo-inflector:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.22" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.22" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:4.3.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.cloudfoundry:cloudfoundry-operations:2.5.0.BUILD-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:2.0.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.22" level="project" />
-    <orderEntry type="library" name="Maven: io.projectreactor.ipc:reactor-netty:0.6.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: io.projectreactor.ipc:reactor-ipc:0.6.1.RELEASE" level="project" />
   </component>
 </module>
